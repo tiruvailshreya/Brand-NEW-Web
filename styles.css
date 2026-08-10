@@ -2685,3 +2685,352 @@ body::before {
     background: linear-gradient(180deg, #ff1744 0%, #00bcd4 100%);
     box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
 }
+
+/* Hanging Spider-Man Character */
+.hanging-spiderman {
+    position: fixed;
+    top: 0;
+    right: 120px;
+    z-index: 999;
+    animation: spideySwing 4s ease-in-out infinite;
+    transform-origin: top center;
+    transition: all 0.5s;
+    pointer-events: none;
+}
+
+@keyframes spideySwing {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    50% { transform: rotate(5deg) translateY(10px); }
+}
+
+.hanging-spiderman.web-shooting {
+    animation: spideyShootPose 0.6s ease-out;
+}
+
+@keyframes spideyShootPose {
+    0% { transform: rotate(0deg) scale(1); }
+    30% { transform: rotate(-15deg) scale(1.1); }
+    60% { transform: rotate(10deg) scale(0.95); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+/* Web Thread */
+.web-thread {
+    width: 2px;
+    height: 150px;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(200, 200, 200, 0.6) 50%,
+        rgba(255, 255, 255, 0.4) 100%);
+    margin: 0 auto;
+    position: relative;
+    animation: webGlow 2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes webGlow {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        opacity: 0.8;
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        opacity: 1;
+    }
+}
+
+/* Spider-Man Body */
+.spidey-body {
+    width: 80px;
+    height: 120px;
+    position: relative;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.7));
+}
+
+/* Head */
+.spidey-head {
+    width: 50px;
+    height: 60px;
+    background: linear-gradient(135deg, #dc143c 0%, #b01030 100%);
+    border-radius: 50% 50% 45% 45%;
+    margin: 0 auto;
+    position: relative;
+    animation: headMove 3s ease-in-out infinite;
+}
+
+@keyframes headMove {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+/* Eyes */
+.spidey-eye {
+    position: absolute;
+    background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+    border: 2px solid #000;
+    animation: eyeBlink 4s ease-in-out infinite;
+}
+
+@keyframes eyeBlink {
+    0%, 95%, 100% { transform: scaleY(1); }
+    97% { transform: scaleY(0.1); }
+}
+
+.left-eye {
+    width: 22px;
+    height: 28px;
+    top: 18px;
+    left: 6px;
+    border-radius: 60% 40% 40% 60% / 60% 50% 50% 60%;
+    transform: rotate(-10deg);
+}
+
+.right-eye {
+    width: 22px;
+    height: 28px;
+    top: 18px;
+    right: 6px;
+    border-radius: 40% 60% 60% 40% / 50% 60% 60% 50%;
+    transform: rotate(10deg);
+}
+
+/* Web Pattern on Face */
+.web-pattern-face::before,
+.web-pattern-face::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 0, 0, 0.4) 20%, 
+        rgba(0, 0, 0, 0.4) 80%, 
+        transparent 100%);
+}
+
+.web-pattern-face::before {
+    transform: rotate(-20deg);
+    left: 0;
+}
+
+.web-pattern-face::after {
+    transform: rotate(20deg);
+    right: 0;
+}
+
+/* Torso */
+.spidey-torso {
+    width: 45px;
+    height: 50px;
+    background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+    margin: 2px auto 0;
+    border-radius: 20% 20% 30% 30%;
+    position: relative;
+}
+
+.spidey-torso::before {
+    content: '🕷️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+.spidey-torso::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Arms */
+.spidey-arm {
+    width: 18px;
+    height: 45px;
+    background: linear-gradient(180deg, #dc143c 0%, #b01030 100%);
+    position: absolute;
+    top: 65px;
+    border-radius: 10px;
+}
+
+.left-arm {
+    left: 8px;
+    transform: rotate(-45deg);
+    animation: leftArmSwing 3s ease-in-out infinite;
+}
+
+@keyframes leftArmSwing {
+    0%, 100% { transform: rotate(-45deg); }
+    50% { transform: rotate(-55deg); }
+}
+
+.right-arm {
+    right: 8px;
+    transform: rotate(45deg);
+    animation: rightArmSwing 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes rightArmSwing {
+    0%, 100% { transform: rotate(45deg); }
+    50% { transform: rotate(55deg); }
+}
+
+/* Legs */
+.spidey-leg {
+    width: 16px;
+    height: 40px;
+    background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+    position: absolute;
+    bottom: -35px;
+    border-radius: 8px;
+}
+
+.left-leg {
+    left: 18px;
+    transform: rotate(-10deg);
+    animation: leftLegSwing 3s ease-in-out infinite;
+}
+
+@keyframes leftLegSwing {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(-20deg); }
+}
+
+.right-leg {
+    right: 18px;
+    transform: rotate(10deg);
+    animation: rightLegSwing 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes rightLegSwing {
+    0%, 100% { transform: rotate(10deg); }
+    50% { transform: rotate(20deg); }
+}
+
+/* Web Shooter SVG */
+.web-shooter-svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    pointer-events: none;
+}
+
+#webPath {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    stroke-dasharray: 10 5;
+    animation: webDash 0.5s linear infinite;
+}
+
+@keyframes webDash {
+    to {
+        stroke-dashoffset: 15;
+    }
+}
+
+/* Web Shooting Effect */
+.web-shoot-effect {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 997;
+    animation: webParticle 0.6s ease-out forwards;
+}
+
+@keyframes webParticle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Page Transition Effect */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        transparent 0%, 
+        rgba(220, 20, 60, 0.3) 50%, 
+        #0a0a0a 100%);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+}
+
+.page-transition.active {
+    opacity: 1;
+}
+
+/* Web impact effect on target */
+.web-impact {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    pointer-events: none;
+    z-index: 996;
+}
+
+.web-impact::before {
+    content: '🕸️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 80px;
+    animation: webImpactAnim 0.8s ease-out forwards;
+}
+
+@keyframes webImpactAnim {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Spidey appears on hover over nav */
+.nav-links a:hover ~ .hanging-spiderman,
+.btn-report:hover ~ .hanging-spiderman {
+    animation: spideyExcited 0.8s ease-in-out;
+}
+
+@keyframes spideyExcited {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(-10deg); }
+    75% { transform: translateY(-20px) rotate(10deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hanging-spiderman {
+        right: 20px;
+        transform: scale(0.7);
+    }
+    
+    .web-thread {
+        height: 100px;
+    }
+}

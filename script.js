@@ -1,4 +1,109 @@
-// Navigation Functions
+// Navigation Functions with Web Shooting Effect
+let isTransitioning = false;
+
+function shootWeb(targetElement, callback) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    
+    const spidey = document.getElementById('hangingSpidey');
+    const webPath = document.getElementById('webPath');
+    const svg = document.getElementById('webShooter');
+    
+    if (!spidey || !webPath || !targetElement) {
+        callback();
+        return;
+    }
+    
+    // Get positions
+    const spideyRect = spidey.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    
+    const startX = spideyRect.left + spideyRect.width / 2;
+    const startY = spideyRect.top + spideyRect.height - 20;
+    const endX = targetRect.left + targetRect.width / 2;
+    const endY = targetRect.top + targetRect.height / 2;
+    
+    // Add shooting pose
+    spidey.classList.add('web-shooting');
+    
+    // Create web path with curve
+    const controlX = (startX + endX) / 2 + (Math.random() - 0.5) * 100;
+    const controlY = Math.min(startY, endY) - 100;
+    
+    const pathD = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
+    webPath.setAttribute('d', pathD);
+    
+    // Animate web shooting
+    webPath.style.opacity = '1';
+    webPath.style.stroke = '#fff';
+    webPath.style.strokeWidth = '4';
+    webPath.style.filter = 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(220, 20, 60, 0.6))';
+    
+    // Create web particles
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createWebParticle(startX, startY, endX, endY, i / 15);
+        }, i * 30);
+    }
+    
+    // Web impact effect
+    setTimeout(() => {
+        createWebImpact(endX, endY);
+        
+        // Fade out web
+        webPath.style.transition = 'opacity 0.3s';
+        webPath.style.opacity = '0';
+        
+        // Page transition
+        createPageTransition();
+        
+        setTimeout(() => {
+            spidey.classList.remove('web-shooting');
+            callback();
+            isTransitioning = false;
+        }, 400);
+    }, 600);
+}
+
+function createWebParticle(startX, startY, endX, endY, progress) {
+    const particle = document.createElement('div');
+    particle.className = 'web-shoot-effect';
+    
+    const x = startX + (endX - startX) * progress;
+    const y = startY + (endY - startY) * progress;
+    
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    
+    document.body.appendChild(particle);
+    
+    setTimeout(() => particle.remove(), 600);
+}
+
+function createWebImpact(x, y) {
+    const impact = document.createElement('div');
+    impact.className = 'web-impact';
+    impact.style.left = x + 'px';
+    impact.style.top = y + 'px';
+    
+    document.body.appendChild(impact);
+    
+    setTimeout(() => impact.remove(), 800);
+}
+
+function createPageTransition() {
+    const transition = document.createElement('div');
+    transition.className = 'page-transition';
+    document.body.appendChild(transition);
+    
+    setTimeout(() => transition.classList.add('active'), 10);
+    
+    setTimeout(() => {
+        transition.classList.remove('active');
+        setTimeout(() => transition.remove(), 600);
+    }, 400);
+}
+
 function goToHome() {
     document.getElementById('landing').style.display = 'none';
     document.getElementById('mainSite').style.display = 'block';
@@ -12,16 +117,39 @@ function goToSightings() {
 }
 
 function showSection(sectionName) {
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => {
-        section.style.display = 'none';
-    });
-    document.getElementById(sectionName).style.display = 'block';
-    window.scrollTo(0, 0);
+    // Find the element that triggered this (if any)
+    const targetSection = document.getElementById(sectionName);
+    
+    if (targetSection && !isTransitioning && document.getElementById('mainSite').style.display !== 'none') {
+        shootWeb(targetSection, () => {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            targetSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+    } else {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+        window.scrollTo(0, 0);
+    }
 }
 
 function showArticle(articleId) {
-    showSection('article');
+    const articleSection = document.getElementById('article');
+    if (articleSection) {
+        shootWeb(articleSection, () => {
+            showSection('article');
+        });
+    } else {
+        showSection('article');
+    }
 }
 
 // Search Functions
@@ -250,5 +378,79 @@ showSection = function(sectionName) {
     }
 };
 
+// Add interactive nav link handlers
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers to all navigation links
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('onclick');
+            if (href) {
+                const match = href.match(/showSection\('(.+?)'\)/);
+                if (match) {
+                    showSection(match[1]);
+                }
+            }
+        });
+    });
+    
+    // Add hover effect for Spider-Man
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            const spidey = document.getElementById('hangingSpidey');
+            if (spidey) {
+                spidey.style.animation = 'spideyExcited 0.8s ease-in-out';
+                setTimeout(() => {
+                    spidey.style.animation = 'spideySwing 4s ease-in-out infinite';
+                }, 800);
+            }
+        });
+    });
+    
+    // Handle report button
+    const reportBtn = document.querySelector('.btn-report');
+    if (reportBtn) {
+        reportBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection('report');
+        });
+    }
+    
+    // Make Spider-Man interactive
+    const hangingSpidey = document.getElementById('hangingSpidey');
+    if (hangingSpidey) {
+        hangingSpidey.style.cursor = 'pointer';
+        hangingSpidey.style.pointerEvents = 'auto';
+        
+        hangingSpidey.addEventListener('click', function() {
+            // Make Spidey do a flip!
+            this.style.animation = 'none';
+            this.style.transform = 'rotate(360deg) scale(1.2)';
+            
+            // Create web burst effect
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * 45) * Math.PI / 180;
+                const distance = 100;
+                const x = this.offsetLeft + this.offsetWidth / 2 + Math.cos(angle) * distance;
+                const y = this.offsetTop + this.offsetHeight / 2 + Math.sin(angle) * distance;
+                createWebParticle(
+                    this.offsetLeft + this.offsetWidth / 2,
+                    this.offsetTop + this.offsetHeight / 2,
+                    x,
+                    y,
+                    1
+                );
+            }
+            
+            setTimeout(() => {
+                this.style.transform = '';
+                this.style.animation = 'spideySwing 4s ease-in-out infinite';
+            }, 600);
+        });
+    }
+});
+
 console.log('🕷️ Spider-Man effects activated!');
 console.log('🕸️ Web-slinging functionality loaded!');
+console.log('🎯 Click navigation links to see Spider-Man shoot webs!');
