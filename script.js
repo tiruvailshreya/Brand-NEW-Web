@@ -383,12 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up Spider-Man image with better fallback
     const spideyImg = document.querySelector('.spidey-image');
     if (spideyImg) {
-        // Alternative Spider-Man image sources (you can replace with your own)
+        // Alternative Spider-Man hanging image sources
         const imageBackups = [
-            'https://i.postimg.cc/MGcz6ygn/spiderman-hanging.png',
-            'https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=400&q=80',
-            'https://i.ibb.co/XJ8K9yM/spiderman-hanging.png',
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png' // Pikachu as ultimate fallback
+            'https://png.pngitem.com/pimgs/s/19-195749_spider-man-hanging-upside-down-png-transparent-png.png',
+            'https://www.pngall.com/wp-content/uploads/13/Spiderman-Hanging-PNG-Pic.png',
+            'https://www.pngkey.com/png/full/19-195749_spider-man-hanging-upside-down-png.png',
+            'https://www.pngmart.com/files/13/Spiderman-Hanging-PNG-Pic.png',
+            'https://www.freepnglogos.com/uploads/spiderman-png/spiderman-hanging-upside-down-png-2.png'
         ];
         
         let currentBackupIndex = 0;
@@ -396,8 +397,16 @@ document.addEventListener('DOMContentLoaded', function() {
         spideyImg.onerror = function() {
             currentBackupIndex++;
             if (currentBackupIndex < imageBackups.length) {
+                console.log('Trying backup image:', currentBackupIndex);
                 this.src = imageBackups[currentBackupIndex];
+            } else {
+                console.log('All Spider-Man images failed to load');
             }
+        };
+        
+        // Log when image loads successfully
+        spideyImg.onload = function() {
+            console.log('🕷️ Spider-Man loaded successfully!');
         };
     }
     
