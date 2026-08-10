@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Bugle - Menace or Hero?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landing">
+        <div class="hero-section">
+            <div class="newspaper-header">
+                <h1 class="bugle-logo">THE DAILY BUGLE</h1>
+                <p class="tagline">New York's #1 News Source</p>
+            </div>
+            <div class="hero-content">
+                <h2 class="hero-headline">MENACE OR HERO?</h2>
+                <p class="hero-subheading">New York's most controversial hero. You decide.</p>
+                <div class="spider-silhouette"></div>
+            </div>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="goToHome()">READ THE LATEST</button>
+                <button class="btn-secondary" onclick="goToSightings()">SPIDEY SIGHTINGS</button>
+            </div>
+            <div class="breaking-ticker">
+                <span class="ticker-label">BREAKING:</span>
+                <span class="ticker-text">Spider-Man spotted in Midtown - 10 civilians rescued</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Site -->
+    <div class="main-site" id="mainSite" style="display:none;">
+        <!-- Web Pattern Background -->
+        <div class="web-pattern"></div>
+        
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <h1 class="nav-logo">THE DAILY BUGLE</h1>
+                <div class="nav-links">
+                    <a href="#" onclick="showSection('home')">HOME</a>
+                    <a href="#" onclick="showSection('sightings')">SIGHTINGS</a>
+                    <a href="#" onclick="showSection('opinion')">OPINION</a>
+                    <a href="#" onclick="showSection('polls')">POLLS</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-report" onclick="showSection('report')">🕷️ REPORT A SIGHTING</button>
+                    <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+                    <button class="icon-btn" onclick="toggleNotifications()">🔔</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Search Panel -->
+        <div class="search-panel" id="searchPanel" style="display:none;">
+            <input type="text" placeholder="Search articles, sightings..." id="searchInput">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div class="notifications-panel" id="notificationsPanel" style="display:none;">
+            <h3>Notifications</h3>
+            <div class="notification breaking">
+                <span class="notification-icon">🔴</span>
+                <div>
+                    <strong>BREAKING NEWS</strong>
+                    <p>Spider-Man spotted in Queens</p>
+                    <span class="time">5 min ago</span>
+                </div>
+            </div>
+            <div class="notification">
+                <span class="notification-icon">📰</span>
+                <div>
+                    <strong>New article</strong>
+                    <p>"Hero or Menace?"</p>
+                    <span class="time">20 min ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home" class="content-section">
+            <div class="breaking-alert">
+                🚨 BREAKING: SPIDER-MAN SPOTTED IN MIDTOWN
+            </div>
+
+            <div class="container">
+                <div class="feed-layout">
+                    <main class="main-feed">
+                        <!-- Featured Story -->
+                        <article class="featured-story" onclick="showArticle(1)">
+                            <img src="https://via.placeholder.com/800x400/dc143c/ffffff?text=🕷️+SPIDER-MAN+DESTROYS+BRIDGE" alt="Featured">
+                            <div class="article-content">
+                                <span class="category">🚨 TOP STORY</span>
+                                <h2>🕷️ SPIDER-MAN SAVES 20 CIVILIANS — BUT WHO PAYS FOR THE DAMAGE?</h2>
+                                <p class="article-excerpt">Once again, the masked vigilante leaves destruction in his wake while playing hero...</p>
+                                <div class="article-meta">
+                                    <span>By J. Jonah Jameson</span>
+                                    <span>10 Aug 2026 · 10:42 AM</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Filter Tabs -->
+                        <div class="filter-tabs">
+                            <button class="tab active">ALL NEWS</button>
+                            <button class="tab">OPINION</button>
+                            <button class="tab">SPIDER-MAN</button>
+                            <button class="tab">VILLAINS</button>
+                            <button class="tab">CITIZEN REPORTS</button>
+                        </div>
+
+                        <!-- News Grid -->
+                        <div class="news-grid">
+                            <article class="news-card" onclick="showArticle(2)">
+                                <img src="https://via.placeholder.com/400x250/333/dc143c?text=🕸️+WEB+MENACE" alt="Article">
+                                <div class="card-content">
+                                    <h3>🕸️ Web-Slinger Webs Up Traffic for Hours</h3>
+                                    <p>Commuters frustrated as vigilante creates chaos...</p>
+                                    <div class="card-meta">
+                                        <span>2 hours ago</span>
+                                        <span>💬 145</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="news-card" onclick="showArticle(3)">
+                                <img src="https://via.placeholder.com/400x250/333/1e90ff?text=⚖️+HERO+OR+MENACE" alt="Article">
+                                <div class="card-content">
+                                    <h3>⚖️ Poll: 58% of New Yorkers Trust Spider-Man</h3>
+                                    <p>Despite property damage, public opinion shifts...</p>
+                                    <div class="card-meta">
+                                        <span>4 hours ago</span>
+                                        <span>💬 328</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="news-card" onclick="showArticle(4)">
+                                <img src="https://via.placeholder.com/400x250/333/dc143c?text=🎃+GREEN+GOBLIN" alt="Article">
+                                <div class="card-content">
+                                    <h3>🎃 Green Goblin Terrorizes Manhattan</h3>
+                                    <p>Masked menace battles fellow vigilante...</p>
+                                    <div class="card-meta">
+                                        <span>6 hours ago</span>
+                                        <span>💬 412</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </main>
+
+                    <!-- Sidebar -->
+                    <aside class="sidebar">
+                        <div class="widget">
+                            <h3>🕷️ TRENDING NOW</h3>
+                            <ul class="trending-list">
+                                <li>🔥 Spider-Man identity theories</li>
+                                <li>🔥 Daily Bugle exclusive interview</li>
+                                <li>🔥 Damage costs reach $2M</li>
+                                <li>🕸️ New web formula discovered</li>
+                                <li>🎭 Mysterio sighting reports</li>
+                            </ul>
+                        </div>
+
+                        <div class="widget reputation-meter">
+                            <h3>🗳️ PUBLIC OPINION</h3>
+                            <div class="meter-container">
+                                <div class="meter-labels">
+                                    <span>🔴 MENACE</span>
+                                    <span>🔵 HERO</span>
+                                </div>
+                                <div class="meter-bar">
+                                    <div class="meter-fill" style="width: 58%"></div>
+                                </div>
+                                <p class="meter-text">58% think he's a hero</p>
+                            </div>
+                        </div>
+
+                        <div class="widget">
+                            <h3>✍️ EDITOR'S PICK</h3>
+                            <div class="editor-pick" onclick="showArticle(5)">
+                                <img src="https://via.placeholder.com/200x120/dc143c/ffffff?text=📰+JJJ" alt="Editorial">
+                                <h4>J. Jonah Jameson: Who Gave Him The Right?</h4>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Article Section -->
+        <section id="article" class="content-section" style="display:none;">
+            <div class="container">
+                <article class="article-full">
+                    <div class="article-header">
+                        <span class="article-category">🚨 BREAKING NEWS</span>
+                        <h1 id="articleTitle">🕷️ SPIDER-MAN SAVES 20 CIVILIANS — BUT WHO PAYS FOR THE DAMAGE?</h1>
+                        <div class="article-author">
+                            <img src="https://via.placeholder.com/50/333/fff?text=JJJ" alt="Author">
+                            <div>
+                                <strong>J. Jonah Jameson</strong>
+                                <span>Editor-in-Chief</span>
+                            </div>
+                            <span class="article-date">10 Aug 2026 · 10:42 AM</span>
+                        </div>
+                    </div>
+
+                    <img class="article-image" src="https://via.placeholder.com/1000x500/dc143c/ffffff?text=🕷️+SPIDER-MAN+INCIDENT" alt="Article">
+
+                    <div class="article-body">
+                        <p><strong>NEW YORK</strong> — Once again, the masked vigilante known as "Spider-Man" has left a trail of destruction in his wake while playing hero.</p>
+                        
+                        <p>Yesterday's incident at the Queensboro Bridge resulted in an estimated $2 million in damages. While sources confirm that 20 civilians were rescued from a collapsing section of the bridge, the question remains: who will pay for the extensive damage caused by this reckless vigilante?</p>
+
+                        <p>"He destroyed half the bridge!" said local business owner Marcus Chen. "Sure, people were saved, but now we're stuck with the bill and weeks of traffic chaos."</p>
+
+                        <p>This latest incident adds to the growing controversy surrounding the web-slinger. While some New Yorkers hail him as a hero, others question whether a masked vigilante operating outside the law is what this city needs.</p>
+
+                        <p>The NYPD has declined to comment on whether they are investigating Spider-Man's activities. Mayor's office released a statement thanking the "anonymous individual" for assistance but emphasized that vigilantism remains illegal.</p>
+
+                        <blockquote>"We cannot have masked individuals taking the law into their own hands, regardless of their intentions."</blockquote>
+
+                        <p>The Daily Bugle will continue to investigate this menace and bring you the truth that others won't report.</p>
+                    </div>
+
+                    <div class="article-actions">
+                        <button class="action-btn">👍 512</button>
+                        <button class="action-btn">👎 89</button>
+                        <button class="action-btn">🔖 Bookmark</button>
+                        <button class="action-btn">📤 Share</button>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <h3>💬 PUBLIC REACTION (247 Comments)</h3>
+                        <div class="comment-sort">
+                            <button class="sort-btn active">TOP</button>
+                            <button class="sort-btn">LATEST</button>
+                            <button class="sort-btn">CONTROVERSIAL</button>
+                        </div>
+
+                        <div class="comment">
+                            <img src="https://via.placeholder.com/40/1e90ff/fff?text=A" alt="User">
+                            <div class="comment-content">
+                                <strong>Alex Martinez</strong>
+                                <p>He literally saved those people. Without Spider-Man, they'd all be dead. Who cares about the bridge?</p>
+                                <div class="comment-actions">
+                                    <button>👍 324</button>
+                                    <button>👎 21</button>
+                                    <button>Reply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment">
+                            <img src="https://via.placeholder.com/40/dc143c/fff?text=S" alt="User">
+                            <div class="comment-content">
+                                <strong>Sarah Johnson</strong>
+                                <p>And destroyed half the bridge! My taxes will pay for this. We need accountability.</p>
+                                <div class="comment-actions">
+                                    <button>👍 210</button>
+                                    <button>👎 89</button>
+                                    <button>Reply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment">
+                            <img src="https://via.placeholder.com/40/32cd32/fff?text=M" alt="User">
+                            <div class="comment-content">
+                                <strong>Mike Chen</strong>
+                                <p>I was there. The bridge was already collapsing. Spider-Man saved my daughter's life. He's a hero.</p>
+                                <div class="comment-actions">
+                                    <button>👍 567</button>
+                                    <button>👎 34</button>
+                                    <button>Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Stories -->
+                    <div class="related-stories">
+                        <h3>🕸️ RELATED STORIES</h3>
+                        <div class="related-grid">
+                            <div class="related-card" onclick="showArticle(2)">
+                                <img src="https://via.placeholder.com/250x150/333/fff?text=Related" alt="Related">
+                                <h4>Spider-Man: A Pattern of Destruction</h4>
+                            </div>
+                            <div class="related-card" onclick="showArticle(3)">
+                                <img src="https://via.placeholder.com/250x150/333/fff?text=Related" alt="Related">
+                                <h4>Who Is Spider-Man? Investigation Continues</h4>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <button class="btn-back" onclick="showSection('home')">← Back to News Feed</button>
+            </div>
+        </section>
+
+        <!-- Sightings Section -->
+        <section id="sightings" class="content-section" style="display:none;">
+            <div class="container">
+                <h2>🕷️ SPIDEY SIGHTINGS</h2>
+                <p class="section-desc">🗽 Citizen-reported Spider-Man activity across New York</p>
+
+                <div class="sightings-layout">
+                    <div class="sightings-map">
+                        <div class="map-placeholder">
+                            <h3>NEW YORK CITY</h3>
+                            <div class="map-marker" style="top:30%; left:60%;" onclick="showSighting(1)">
+                                📍 <span>Midtown</span>
+                            </div>
+                            <div class="map-marker" style="top:60%; left:40%;" onclick="showSighting(2)">
+                                📍 <span>Brooklyn</span>
+                            </div>
+                            <div class="map-marker" style="top:45%; left:75%;" onclick="showSighting(3)">
+                                📍 <span>Queens</span>
+                            </div>
+                            <div class="map-marker" style="top:20%; left:50%;" onclick="showSighting(4)">
+                                📍 <span>Bronx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sightings-list">
+                        <h3>🕸️ RECENT SIGHTINGS</h3>
+                        <div class="sighting-card verified">
+                            <div class="sighting-header">
+                                <strong>🕷️ Midtown Manhattan</strong>
+                                <span class="badge verified">✓ VERIFIED</span>
+                            </div>
+                            <p>Spider-Man seen swinging between buildings</p>
+                            <div class="sighting-meta">
+                                <span>8 minutes ago</span>
+                                <span>Confidence: 87%</span>
+                                <span>📷 3 photos</span>
+                            </div>
+                        </div>
+
+                        <div class="sighting-card">
+                            <div class="sighting-header">
+                                <strong>🌉 Brooklyn Bridge</strong>
+                                <span class="badge">PENDING</span>
+                            </div>
+                            <p>Possible web residue on bridge cables</p>
+                            <div class="sighting-meta">
+                                <span>42 minutes ago</span>
+                                <span>Confidence: 45%</span>
+                            </div>
+                        </div>
+
+                        <div class="sighting-card verified">
+                            <div class="sighting-header">
+                                <strong>🏙️ Queens</strong>
+                                <span class="badge verified">✓ VERIFIED</span>
+                            </div>
+                            <p>Spider-Man stopped robbery at convenience store</p>
+                            <div class="sighting-meta">
+                                <span>2 hours ago</span>
+                                <span>Confidence: 92%</span>
+                                <span>🎥 Video</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Report Sighting Section -->
+        <section id="report" class="content-section" style="display:none;">
+            <div class="container">
+                <div class="report-form">
+                    <h2>📸 I SAW SPIDER-MAN!</h2>
+                    <p>Help us track Spider-Man's activities across New York</p>
+
+                    <form onsubmit="submitSighting(event)">
+                        <div class="form-group">
+                            <label>Where did you see him?</label>
+                            <input type="text" placeholder="Location (e.g., Times Square)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>When?</label>
+                            <input type="datetime-local" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What did you see?</label>
+                            <textarea placeholder="Describe the sighting..." rows="5" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Photo/Video (Optional)</label>
+                            <input type="file" accept="image/*,video/*">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Your Name (Optional)</label>
+                            <input type="text" placeholder="Anonymous">
+                        </div>
+
+                        <button type="submit" class="btn-primary">SUBMIT SIGHTING</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opinion Section -->
+        <section id="opinion" class="content-section" style="display:none;">
+            <div class="container">
+                <div class="opinion-header">
+                    <h2>📰 J. JONAH JAMESON'S TAKE</h2>
+                    <p class="opinion-tagline">New York's voice of reason</p>
+                </div>
+
+                <div class="bias-comparison">
+                    <h3>⚖️ TWO SIDES OF THE STORY</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-card biased">
+                            <div class="card-label menace">DAILY BUGLE</div>
+                            <h4>🚨 MENACE STRIKES AGAIN!</h4>
+                            <p>Masked vigilante causes $2M in damage during reckless bridge incident. Who will pay?</p>
+                            <span class="bias-indicator">⚠️ BIASED REPORTING</span>
+                        </div>
+
+                        <div class="comparison-card neutral">
+                            <div class="card-label hero">NEUTRAL NEWS</div>
+                            <h4>🕷️ Spider-Man Rescues 20 During Bridge Collapse</h4>
+                            <p>Local hero prevents casualties as Queensboro Bridge section fails. Investigation ongoing.</p>
+                            <span class="bias-indicator">✓ BALANCED REPORTING</span>
+                        </div>
+                    </div>
+                    <div class="comparison-question">
+                        <strong>WHAT DO YOU THINK?</strong>
+                        <button onclick="showSection('polls')">VOTE NOW</button>
+                    </div>
+                </div>
+
+                <div class="editorial-list">
+                    <article class="editorial-card" onclick="showArticle(5)">
+                        <img src="https://via.placeholder.com/300x200/dc143c/fff?text=📰+JJJ" alt="Editorial">
+                        <div>
+                            <h3>🕷️ SPIDER-MAN: HERO OR PUBLIC MENACE?</h3>
+                            <p>The question every New Yorker should be asking...</p>
+                            <span>By J. Jonah Jameson</span>
+                        </div>
+                    </article>
+
+                    <article class="editorial-card" onclick="showArticle(6)">
+                        <img src="https://via.placeholder.com/300x200/dc143c/fff?text=⚠️+Opinion" alt="Editorial">
+                        <div>
+                            <h3>⚠️ WHO GAVE HIM THE RIGHT?</h3>
+                            <p>On vigilantism and the rule of law...</p>
+                            <span>By J. Jonah Jameson</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Polls Section -->
+        <section id="polls" class="content-section" style="display:none;">
+            <div class="container">
+                <h2>🗳️ POLLS & PUBLIC OPINION</h2>
+                
+                <div class="poll-featured">
+                    <h3>IS SPIDER-MAN A MENACE?</h3>
+                    <div class="poll-options">
+                        <button class="poll-btn menace" onclick="vote('menace')">
+                            <span>🔴 YES</span>
+                        </button>
+                        <button class="poll-btn hero" onclick="vote('hero')">
+                            <span>🔵 NO</span>
+                        </button>
+                    </div>
+
+                    <div class="poll-results" id="pollResults" style="display:none;">
+                        <h4>POLL RESULTS</h4>
+                        <div class="result-bar">
+                            <div class="result-label">
+                                <span>YES (Menace)</span>
+                                <span id="menacePercent">42%</span>
+                            </div>
+                            <div class="bar menace-bar">
+                                <div class="bar-fill" id="menaceFill" style="width:42%"></div>
+                            </div>
+                        </div>
+                        <div class="result-bar">
+                            <div class="result-label">
+                                <span>NO (Hero)</span>
+                                <span id="heroPercent">58%</span>
+                            </div>
+                            <div class="bar hero-bar">
+                                <div class="bar-fill" id="heroFill" style="width:58%"></div>
+                            </div>
+                        </div>
+                        <p class="total-votes">Total votes: <span id="totalVotes">12,847</span></p>
+                    </div>
+                </div>
+
+                <div class="polls-grid">
+                    <div class="poll-card">
+                        <h4>Should Spider-Man reveal his identity?</h4>
+                        <div class="mini-results">
+                            <div class="mini-bar" style="width:35%">YES 35%</div>
+                            <div class="mini-bar" style="width:65%">NO 65%</div>
+                        </div>
+                    </div>
+
+                    <div class="poll-card">
+                        <h4>Should vigilantes be allowed in NYC?</h4>
+                        <div class="mini-results">
+                            <div class="mini-bar" style="width:48%">YES 48%</div>
+                            <div class="mini-bar" style="width:52%">NO 52%</div>
+                        </div>
+                    </div>
+
+                    <div class="poll-card">
+                        <h4>Who is Spider-Man's greatest villain?</h4>
+                        <ul class="poll-list">
+                            <li>Green Goblin - 34%</li>
+                            <li>Doctor Octopus - 28%</li>
+                            <li>Venom - 38%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
