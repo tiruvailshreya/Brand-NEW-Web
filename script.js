@@ -380,6 +380,27 @@ showSection = function(sectionName) {
 
 // Add interactive nav link handlers
 document.addEventListener('DOMContentLoaded', function() {
+    // Set up Spider-Man image with better fallback
+    const spideyImg = document.querySelector('.spidey-image');
+    if (spideyImg) {
+        // Alternative Spider-Man image sources (you can replace with your own)
+        const imageBackups = [
+            'https://i.postimg.cc/MGcz6ygn/spiderman-hanging.png',
+            'https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=400&q=80',
+            'https://i.ibb.co/XJ8K9yM/spiderman-hanging.png',
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png' // Pikachu as ultimate fallback
+        ];
+        
+        let currentBackupIndex = 0;
+        
+        spideyImg.onerror = function() {
+            currentBackupIndex++;
+            if (currentBackupIndex < imageBackups.length) {
+                this.src = imageBackups[currentBackupIndex];
+            }
+        };
+    }
+    
     // Add click handlers to all navigation links
     const navLinks = document.querySelectorAll('.nav-links a');
     navLinks.forEach(link => {

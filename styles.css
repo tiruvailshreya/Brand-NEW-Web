@@ -2686,7 +2686,7 @@ body::before {
     box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
 }
 
-/* Hanging Spider-Man Character */
+/* Hanging Spider-Man Character - Real Image */
 .hanging-spiderman {
     position: fixed;
     top: 0;
@@ -2695,12 +2695,13 @@ body::before {
     animation: spideySwing 4s ease-in-out infinite;
     transform-origin: top center;
     transition: all 0.5s;
-    pointer-events: none;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 @keyframes spideySwing {
-    0%, 100% { transform: rotate(-5deg) translateY(0); }
-    50% { transform: rotate(5deg) translateY(10px); }
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50% { transform: rotate(3deg) translateY(15px); }
 }
 
 .hanging-spiderman.web-shooting {
@@ -2709,209 +2710,91 @@ body::before {
 
 @keyframes spideyShootPose {
     0% { transform: rotate(0deg) scale(1); }
-    30% { transform: rotate(-15deg) scale(1.1); }
-    60% { transform: rotate(10deg) scale(0.95); }
+    30% { transform: rotate(-10deg) scale(1.08); }
+    60% { transform: rotate(8deg) scale(0.96); }
     100% { transform: rotate(0deg) scale(1); }
 }
 
 /* Web Thread */
 .web-thread {
-    width: 2px;
-    height: 150px;
+    width: 3px;
+    height: 120px;
     background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.8) 0%, 
-        rgba(200, 200, 200, 0.6) 50%,
-        rgba(255, 255, 255, 0.4) 100%);
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(230, 230, 230, 0.7) 30%,
+        rgba(200, 200, 200, 0.6) 70%,
+        rgba(255, 255, 255, 0.5) 100%);
     margin: 0 auto;
     position: relative;
     animation: webGlow 2s ease-in-out infinite;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.6),
+        0 0 20px rgba(255, 255, 255, 0.4),
+        inset 0 0 5px rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
 }
 
 @keyframes webGlow {
     0%, 100% { 
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        opacity: 0.8;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+        opacity: 0.85;
     }
     50% { 
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.6);
         opacity: 1;
     }
 }
 
-/* Spider-Man Body */
-.spidey-body {
-    width: 80px;
-    height: 120px;
-    position: relative;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.7));
-}
-
-/* Head */
-.spidey-head {
-    width: 50px;
-    height: 60px;
-    background: linear-gradient(135deg, #dc143c 0%, #b01030 100%);
-    border-radius: 50% 50% 45% 45%;
+/* Real Spider-Man Image */
+.spidey-image {
+    width: 150px;
+    height: auto;
+    display: block;
     margin: 0 auto;
-    position: relative;
-    animation: headMove 3s ease-in-out infinite;
-}
-
-@keyframes headMove {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
-}
-
-/* Eyes */
-.spidey-eye {
-    position: absolute;
-    background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
-    border: 2px solid #000;
-    animation: eyeBlink 4s ease-in-out infinite;
-}
-
-@keyframes eyeBlink {
-    0%, 95%, 100% { transform: scaleY(1); }
-    97% { transform: scaleY(0.1); }
-}
-
-.left-eye {
-    width: 22px;
-    height: 28px;
-    top: 18px;
-    left: 6px;
-    border-radius: 60% 40% 40% 60% / 60% 50% 50% 60%;
-    transform: rotate(-10deg);
-}
-
-.right-eye {
-    width: 22px;
-    height: 28px;
-    top: 18px;
-    right: 6px;
-    border-radius: 40% 60% 60% 40% / 50% 60% 60% 50%;
-    transform: rotate(10deg);
-}
-
-/* Web Pattern on Face */
-.web-pattern-face::before,
-.web-pattern-face::after {
-    content: '';
-    position: absolute;
-    top: 30px;
-    width: 50px;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(0, 0, 0, 0.4) 20%, 
-        rgba(0, 0, 0, 0.4) 80%, 
-        transparent 100%);
-}
-
-.web-pattern-face::before {
-    transform: rotate(-20deg);
-    left: 0;
-}
-
-.web-pattern-face::after {
-    transform: rotate(20deg);
-    right: 0;
-}
-
-/* Torso */
-.spidey-torso {
-    width: 45px;
-    height: 50px;
-    background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
-    margin: 2px auto 0;
-    border-radius: 20% 20% 30% 30%;
-    position: relative;
-}
-
-.spidey-torso::before {
-    content: '🕷️';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    opacity: 0.6;
-}
-
-.spidey-torso::after {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 30px;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-/* Arms */
-.spidey-arm {
-    width: 18px;
-    height: 45px;
-    background: linear-gradient(180deg, #dc143c 0%, #b01030 100%);
-    position: absolute;
-    top: 65px;
+    transform: rotate(180deg);
+    filter: 
+        drop-shadow(0 8px 25px rgba(0, 0, 0, 0.8))
+        drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))
+        brightness(1.1)
+        contrast(1.15);
+    transition: all 0.4s ease;
     border-radius: 10px;
+    animation: spideyImageFloat 3s ease-in-out infinite;
 }
 
-.left-arm {
-    left: 8px;
-    transform: rotate(-45deg);
-    animation: leftArmSwing 3s ease-in-out infinite;
+@keyframes spideyImageFloat {
+    0%, 100% { 
+        transform: rotate(180deg) translateY(0) scale(1);
+        filter: 
+            drop-shadow(0 8px 25px rgba(0, 0, 0, 0.8))
+            drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))
+            brightness(1.1);
+    }
+    50% { 
+        transform: rotate(180deg) translateY(-8px) scale(1.02);
+        filter: 
+            drop-shadow(0 12px 35px rgba(0, 0, 0, 0.9))
+            drop-shadow(0 0 50px rgba(220, 20, 60, 0.6))
+            drop-shadow(0 0 80px rgba(30, 144, 255, 0.3))
+            brightness(1.15);
+    }
 }
 
-@keyframes leftArmSwing {
-    0%, 100% { transform: rotate(-45deg); }
-    50% { transform: rotate(-55deg); }
+.hanging-spiderman:hover .spidey-image {
+    transform: rotate(180deg) scale(1.12);
+    filter: 
+        drop-shadow(0 15px 40px rgba(0, 0, 0, 1))
+        drop-shadow(0 0 60px rgba(220, 20, 60, 0.8))
+        drop-shadow(0 0 100px rgba(30, 144, 255, 0.5))
+        brightness(1.2)
+        contrast(1.2);
+    animation: spideyExcited 0.6s ease-in-out;
 }
 
-.right-arm {
-    right: 8px;
-    transform: rotate(45deg);
-    animation: rightArmSwing 3s ease-in-out infinite 0.5s;
-}
-
-@keyframes rightArmSwing {
-    0%, 100% { transform: rotate(45deg); }
-    50% { transform: rotate(55deg); }
-}
-
-/* Legs */
-.spidey-leg {
-    width: 16px;
-    height: 40px;
-    background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
-    position: absolute;
-    bottom: -35px;
-    border-radius: 8px;
-}
-
-.left-leg {
-    left: 18px;
-    transform: rotate(-10deg);
-    animation: leftLegSwing 3s ease-in-out infinite;
-}
-
-@keyframes leftLegSwing {
-    0%, 100% { transform: rotate(-10deg); }
-    50% { transform: rotate(-20deg); }
-}
-
-.right-leg {
-    right: 18px;
-    transform: rotate(10deg);
-    animation: rightLegSwing 3s ease-in-out infinite 0.5s;
-}
-
-@keyframes rightLegSwing {
-    0%, 100% { transform: rotate(10deg); }
-    50% { transform: rotate(20deg); }
+@keyframes spideyExcited {
+    0%, 100% { transform: rotate(180deg) scale(1.12); }
+    25% { transform: rotate(185deg) scale(1.15); }
+    75% { transform: rotate(175deg) scale(1.15); }
 }
 
 /* Web Shooter SVG */
@@ -3012,25 +2895,52 @@ body::before {
 }
 
 /* Spidey appears on hover over nav */
-.nav-links a:hover ~ .hanging-spiderman,
-.btn-report:hover ~ .hanging-spiderman {
+.nav-links a:hover ~ .hanging-spiderman .spidey-image,
+.btn-report:hover ~ .hanging-spiderman .spidey-image {
     animation: spideyExcited 0.8s ease-in-out;
-}
-
-@keyframes spideyExcited {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-20px) rotate(-10deg); }
-    75% { transform: translateY(-20px) rotate(10deg); }
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .hanging-spiderman {
         right: 20px;
-        transform: scale(0.7);
+        transform: scale(0.6);
     }
     
     .web-thread {
-        height: 100px;
+        height: 80px;
     }
+    
+    .spidey-image {
+        width: 100px;
+    }
+}
+
+/* Web Thread decorative strands */
+.web-thread::before,
+.web-thread::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 30%,
+        rgba(255, 255, 255, 0.3) 70%,
+        transparent 100%);
+}
+
+.web-thread::before {
+    left: -2px;
+    animation: webStrandMove 3s ease-in-out infinite;
+}
+
+.web-thread::after {
+    right: -2px;
+    animation: webStrandMove 3s ease-in-out infinite 1.5s;
+}
+
+@keyframes webStrandMove {
+    0%, 100% { opacity: 0.5; transform: translateX(0); }
+    50% { opacity: 0.8; transform: translateX(1px); }
 }
