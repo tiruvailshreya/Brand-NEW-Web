@@ -1,6 +1,9 @@
 // Navigation Functions with Web Shooting Effect
 let isTransitioning = false;
+let currentHoveredLink = null;
+let hoverWebInterval = null;
 
+// Shoot web from Spider-Man's hand to target
 function shootWeb(targetElement, callback) {
     if (isTransitioning) return;
     isTransitioning = true;
@@ -14,12 +17,13 @@ function shootWeb(targetElement, callback) {
         return;
     }
     
-    // Get positions
+    // Get positions - shoot from Spider-Man's hand (right side, middle)
     const spideyRect = spidey.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
-    const startX = spideyRect.left + spideyRect.width / 2;
-    const startY = spideyRect.top + spideyRect.height - 20;
+    // Position at Spider-Man's right hand
+    const startX = spideyRect.right - 30;
+    const startY = spideyRect.top + spideyRect.height / 2 + 20;
     const endX = targetRect.left + targetRect.width / 2;
     const endY = targetRect.top + targetRect.height / 2;
     
@@ -63,6 +67,55 @@ function shootWeb(targetElement, callback) {
             isTransitioning = false;
         }, 400);
     }, 600);
+}
+
+// Shoot web on hover (visual only, no navigation)
+function shootHoverWeb(targetElement) {
+    const spidey = document.getElementById('hangingSpidey');
+    const webPath = document.getElementById('webPath');
+    
+    if (!spidey || !webPath || !targetElement) return;
+    
+    const spideyRect = spidey.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    
+    // Position at Spider-Man's right hand
+    const startX = spideyRect.right - 30;
+    const startY = spideyRect.top + spideyRect.height / 2 + 20;
+    const endX = targetRect.left + targetRect.width / 2;
+    const endY = targetRect.top + targetRect.height / 2;
+    
+    // Add aiming pose
+    spidey.classList.add('aiming');
+    
+    // Create web path with slight curve
+    const controlX = (startX + endX) / 2;
+    const controlY = (startY + endY) / 2 - 50;
+    
+    const pathD = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
+    webPath.setAttribute('d', pathD);
+    
+    // Show web with glow
+    webPath.style.transition = 'opacity 0.2s';
+    webPath.style.opacity = '0.6';
+    webPath.style.stroke = '#fff';
+    webPath.style.strokeWidth = '3';
+    webPath.style.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 20px rgba(220, 20, 60, 0.4))';
+}
+
+// Clear hover web
+function clearHoverWeb() {
+    const spidey = document.getElementById('hangingSpidey');
+    const webPath = document.getElementById('webPath');
+    
+    if (spidey) {
+        spidey.classList.remove('aiming');
+    }
+    
+    if (webPath) {
+        webPath.style.transition = 'opacity 0.3s';
+        webPath.style.opacity = '0';
+    }
 }
 
 function createWebParticle(startX, startY, endX, endY, progress) {
@@ -380,6 +433,15 @@ showSection = function(sectionName) {
 
 // Add interactive nav link handlers
 document.addEventListener('DOMContentLoaded', function() {
+    // Make Spider-Man descend on page load
+    setTimeout(() => {
+        const spidey = document.getElementById('hangingSpidey');
+        if (spidey) {
+            spidey.classList.add('descended');
+            console.log('🕷️ Spider-Man descending from above!');
+        }
+    }, 500);
+    
     // Set up Spider-Man image with better fallback
     const spideyImg = document.querySelector('.spidey-image');
     if (spideyImg) {
@@ -442,27 +504,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handlers to all navigation links
     const navLinks = document.querySelectorAll('.nav-links a');
     navLinks.forEach(link => {
+        // Hover - show web aiming
+        link.addEventListener('mouseenter', function(e) {
+            if (!isTransitioning) {
+                currentHoveredLink = this;
+                shootHoverWeb(this);
+            }
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            if (currentHoveredLink === this) {
+                currentHoveredLink = null;
+                clearHoverWeb();
+            }
+        });
+        
+        // Click - shoot web and navigate
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            clearHoverWeb(); // Clear hover web first
+            
             const href = this.getAttribute('onclick');
             if (href) {
                 const match = href.match(/showSection\('(.+?)'\)/);
                 if (match) {
-                    showSection(match[1]);
+                    shootWeb(this, () => {
+                        showSection(match[1]);
+                    });
                 }
-            }
-        });
-    });
-    
-    // Add hover effect for Spider-Man
-    navLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            const spidey = document.getElementById('hangingSpidey');
-            if (spidey) {
-                spidey.style.animation = 'spideyExcited 0.8s ease-in-out';
-                setTimeout(() => {
-                    spidey.style.animation = 'spideySwing 4s ease-in-out infinite';
-                }, 800);
             }
         });
     });
@@ -470,9 +539,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle report button
     const reportBtn = document.querySelector('.btn-report');
     if (reportBtn) {
+        reportBtn.addEventListener('mouseenter', function() {
+            if (!isTransitioning) {
+                shootHoverWeb(this);
+            }
+        });
+        
+        reportBtn.addEventListener('mouseleave', function() {
+            clearHoverWeb();
+        });
+        
         reportBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            showSection('report');
+            clearHoverWeb();
+            shootWeb(this, () => {
+                showSection('report');
+            });
         });
     }
     
