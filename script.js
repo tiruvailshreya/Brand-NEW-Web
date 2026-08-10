@@ -383,31 +383,60 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up Spider-Man image with better fallback
     const spideyImg = document.querySelector('.spidey-image');
     if (spideyImg) {
-        // Alternative Spider-Man swinging image sources
+        // Alternative Spider-Man swinging image sources - high quality PNGs
         const imageBackups = [
-            'https://www.pngmart.com/files/23/Spider-Man-PNG-Image.png',
-            'https://www.pngall.com/wp-content/uploads/13/Spiderman-Swing-PNG-Photo.png',
-            'https://purepng.com/public/uploads/large/purepng.com-spidermanspidermansuperherocomicbook-1701527825120qvour.png',
-            'https://www.freepnglogos.com/uploads/spiderman-png/spiderman-web-slinging-png-6.png',
-            'https://www.pngkey.com/png/full/0-6726_spider-man-png-transparent-images-spider-man-homecoming.png'
+            'https://static.vecteezy.com/system/resources/previews/024/095/398/non_2x/spiderman-hanging-with-web-on-transparent-background-free-png.png',
+            'https://pngimg.com/uploads/spider_man/spider_man_PNG52.png',
+            'https://www.freeiconspng.com/thumbs/spiderman-png/spiderman-png-25.png',
+            'https://pngimg.com/uploads/spider_man/spider_man_PNG51.png',
+            'https://i.imgur.com/YqF5x8o.png', // Direct reliable backup
+            // Emoji fallback as last resort
+            'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🕷️</text></svg>'
         ];
         
         let currentBackupIndex = 0;
+        let attemptedUrls = new Set();
         
         spideyImg.onerror = function() {
-            currentBackupIndex++;
+            // Avoid infinite loops
+            if (attemptedUrls.has(this.src)) {
+                currentBackupIndex++;
+            }
+            
+            attemptedUrls.add(this.src);
+            
             if (currentBackupIndex < imageBackups.length) {
-                console.log('🕷️ Trying backup Spider-Man image:', currentBackupIndex);
+                console.log('🕷️ Trying backup Spider-Man image #' + (currentBackupIndex + 1));
                 this.src = imageBackups[currentBackupIndex];
+                currentBackupIndex++;
             } else {
-                console.log('❌ All Spider-Man images failed to load');
+                console.log('❌ All Spider-Man images failed - please check your internet connection');
+                // Show a visible error message
+                this.style.display = 'none';
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = 'position: fixed; top: 20px; right: 100px; background: rgba(220,20,60,0.9); color: white; padding: 10px 20px; border-radius: 8px; z-index: 1000; font-size: 14px;';
+                errorMsg.textContent = '🕷️ Spider-Man image failed to load';
+                document.body.appendChild(errorMsg);
+                setTimeout(() => errorMsg.remove(), 3000);
             }
         };
         
         // Log when image loads successfully
         spideyImg.onload = function() {
-            console.log('🕷️ Spider-Man swinging into action! Image loaded successfully!');
+            console.log('✅ Spider-Man swinging into action! Image loaded successfully!');
+            console.log('📍 Loaded from:', this.src);
         };
+        
+        // Force check if image is already in error state
+        if (!spideyImg.complete || spideyImg.naturalHeight === 0) {
+            console.log('⚠️ Initial image appears broken, trying fallback...');
+            setTimeout(() => {
+                if (!spideyImg.complete || spideyImg.naturalHeight === 0) {
+                    spideyImg.src = imageBackups[1];
+                    currentBackupIndex = 2;
+                }
+            }, 1000);
+        }
     }
     
     // Add click handlers to all navigation links
