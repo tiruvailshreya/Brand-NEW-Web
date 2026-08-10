@@ -383,13 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up Spider-Man image with better fallback
     const spideyImg = document.querySelector('.spidey-image');
     if (spideyImg) {
-        // Alternative Spider-Man hanging image sources
+        // Alternative Spider-Man swinging image sources
         const imageBackups = [
-            'https://png.pngitem.com/pimgs/s/19-195749_spider-man-hanging-upside-down-png-transparent-png.png',
-            'https://www.pngall.com/wp-content/uploads/13/Spiderman-Hanging-PNG-Pic.png',
-            'https://www.pngkey.com/png/full/19-195749_spider-man-hanging-upside-down-png.png',
-            'https://www.pngmart.com/files/13/Spiderman-Hanging-PNG-Pic.png',
-            'https://www.freepnglogos.com/uploads/spiderman-png/spiderman-hanging-upside-down-png-2.png'
+            'https://www.pngmart.com/files/23/Spider-Man-PNG-Image.png',
+            'https://www.pngall.com/wp-content/uploads/13/Spiderman-Swing-PNG-Photo.png',
+            'https://purepng.com/public/uploads/large/purepng.com-spidermanspidermansuperherocomicbook-1701527825120qvour.png',
+            'https://www.freepnglogos.com/uploads/spiderman-png/spiderman-web-slinging-png-6.png',
+            'https://www.pngkey.com/png/full/0-6726_spider-man-png-transparent-images-spider-man-homecoming.png'
         ];
         
         let currentBackupIndex = 0;
@@ -397,16 +397,16 @@ document.addEventListener('DOMContentLoaded', function() {
         spideyImg.onerror = function() {
             currentBackupIndex++;
             if (currentBackupIndex < imageBackups.length) {
-                console.log('Trying backup image:', currentBackupIndex);
+                console.log('🕷️ Trying backup Spider-Man image:', currentBackupIndex);
                 this.src = imageBackups[currentBackupIndex];
             } else {
-                console.log('All Spider-Man images failed to load');
+                console.log('❌ All Spider-Man images failed to load');
             }
         };
         
         // Log when image loads successfully
         spideyImg.onload = function() {
-            console.log('🕷️ Spider-Man loaded successfully!');
+            console.log('🕷️ Spider-Man swinging into action! Image loaded successfully!');
         };
     }
     
