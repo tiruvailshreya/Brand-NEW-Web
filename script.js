@@ -9,10 +9,15 @@ function shootWeb(targetElement, callback) {
     isTransitioning = true;
     
     const spidey = document.getElementById('hangingSpidey');
-    const webPath = document.getElementById('webPath');
-    const svg = document.getElementById('webShooter');
+    const webPaths = [
+        document.getElementById('webPath'),
+        document.getElementById('webPath1'),
+        document.getElementById('webPath2'),
+        document.getElementById('webPath3'),
+        document.getElementById('webPath4')
+    ];
     
-    if (!spidey || !webPath || !targetElement) {
+    if (!spidey || !targetElement) {
         callback();
         return;
     }
@@ -30,33 +35,47 @@ function shootWeb(targetElement, callback) {
     // Add shooting pose
     spidey.classList.add('web-shooting');
     
-    // Create web path with curve
-    const controlX = (startX + endX) / 2 + (Math.random() - 0.5) * 100;
-    const controlY = Math.min(startY, endY) - 100;
-    
-    const pathD = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
-    webPath.setAttribute('d', pathD);
-    
-    // Animate web shooting
-    webPath.style.opacity = '1';
-    webPath.style.stroke = '#fff';
-    webPath.style.strokeWidth = '4';
-    webPath.style.filter = 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(220, 20, 60, 0.6))';
-    
-    // Create web particles
-    for (let i = 0; i < 15; i++) {
+    // Create multiple web strands with slight variations
+    webPaths.forEach((webPath, index) => {
+        if (!webPath) return;
+        
+        const offset = (index - 2) * 15; // Spread the strands
+        const curve = 80 + (index * 20); // Varying curves
+        
+        const controlX = (startX + endX) / 2 + offset;
+        const controlY = Math.min(startY, endY) - curve;
+        
+        const pathD = `M ${startX + offset * 0.5} ${startY + offset * 0.3} Q ${controlX} ${controlY} ${endX + offset * 0.5} ${endY + offset * 0.3}`;
+        webPath.setAttribute('d', pathD);
+        
+        // Stagger the appearance of each strand
         setTimeout(() => {
-            createWebParticle(startX, startY, endX, endY, i / 15);
-        }, i * 30);
+            webPath.style.transition = 'opacity 0.1s';
+            webPath.style.opacity = index === 0 ? '1' : (0.8 - index * 0.15);
+        }, index * 30);
+    });
+    
+    // Create web particles along the strands
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            createWebParticle(startX, startY, endX, endY, i / 20);
+        }, i * 25);
     }
+    
+    // Add web strand effects
+    createWebStrands(startX, startY, endX, endY);
     
     // Web impact effect
     setTimeout(() => {
         createWebImpact(endX, endY);
         
-        // Fade out web
-        webPath.style.transition = 'opacity 0.3s';
-        webPath.style.opacity = '0';
+        // Fade out all web strands
+        webPaths.forEach(webPath => {
+            if (webPath) {
+                webPath.style.transition = 'opacity 0.4s';
+                webPath.style.opacity = '0';
+            }
+        });
         
         // Page transition
         createPageTransition();
@@ -66,15 +85,56 @@ function shootWeb(targetElement, callback) {
             callback();
             isTransitioning = false;
         }, 400);
-    }, 600);
+    }, 700);
+}
+
+// Create additional web strands effect
+function createWebStrands(startX, startY, endX, endY) {
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            const strand = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const svg = document.getElementById('webShooter');
+            
+            const offsetX = (Math.random() - 0.5) * 40;
+            const offsetY = (Math.random() - 0.5) * 40;
+            const controlX = (startX + endX) / 2 + offsetX;
+            const controlY = (startY + endY) / 2 - 60 + offsetY;
+            
+            const pathD = `M ${startX + offsetX * 0.3} ${startY + offsetY * 0.3} Q ${controlX} ${controlY} ${endX + offsetX * 0.3} ${endY + offsetY * 0.3}`;
+            
+            strand.setAttribute('d', pathD);
+            strand.setAttribute('stroke', 'rgba(255, 255, 255, 0.6)');
+            strand.setAttribute('stroke-width', '1.5');
+            strand.setAttribute('fill', 'none');
+            strand.style.opacity = '0';
+            strand.style.filter = 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))';
+            
+            svg.appendChild(strand);
+            
+            setTimeout(() => {
+                strand.style.transition = 'opacity 0.2s';
+                strand.style.opacity = '0.7';
+            }, 50);
+            
+            setTimeout(() => {
+                strand.style.transition = 'opacity 0.5s';
+                strand.style.opacity = '0';
+                setTimeout(() => strand.remove(), 500);
+            }, 600);
+        }, i * 40);
+    }
 }
 
 // Shoot web on hover (visual only, no navigation)
 function shootHoverWeb(targetElement) {
     const spidey = document.getElementById('hangingSpidey');
-    const webPath = document.getElementById('webPath');
+    const webPaths = [
+        document.getElementById('webPath'),
+        document.getElementById('webPath1'),
+        document.getElementById('webPath2')
+    ];
     
-    if (!spidey || !webPath || !targetElement) return;
+    if (!spidey || !targetElement) return;
     
     const spideyRect = spidey.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
@@ -88,34 +148,44 @@ function shootHoverWeb(targetElement) {
     // Add aiming pose
     spidey.classList.add('aiming');
     
-    // Create web path with slight curve
-    const controlX = (startX + endX) / 2;
-    const controlY = (startY + endY) / 2 - 50;
-    
-    const pathD = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
-    webPath.setAttribute('d', pathD);
-    
-    // Show web with glow
-    webPath.style.transition = 'opacity 0.2s';
-    webPath.style.opacity = '0.6';
-    webPath.style.stroke = '#fff';
-    webPath.style.strokeWidth = '3';
-    webPath.style.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 20px rgba(220, 20, 60, 0.4))';
+    // Create multiple web strands for hover
+    webPaths.forEach((webPath, index) => {
+        if (!webPath) return;
+        
+        const offset = (index - 1) * 10;
+        const controlX = (startX + endX) / 2 + offset;
+        const controlY = (startY + endY) / 2 - 50;
+        
+        const pathD = `M ${startX + offset * 0.5} ${startY + offset * 0.3} Q ${controlX} ${controlY} ${endX + offset * 0.5} ${endY + offset * 0.3}`;
+        webPath.setAttribute('d', pathD);
+        
+        // Show web with varying opacity
+        webPath.style.transition = 'opacity 0.2s';
+        webPath.style.opacity = index === 0 ? '0.5' : (0.4 - index * 0.1);
+    });
 }
 
 // Clear hover web
 function clearHoverWeb() {
     const spidey = document.getElementById('hangingSpidey');
-    const webPath = document.getElementById('webPath');
+    const webPaths = [
+        document.getElementById('webPath'),
+        document.getElementById('webPath1'),
+        document.getElementById('webPath2'),
+        document.getElementById('webPath3'),
+        document.getElementById('webPath4')
+    ];
     
     if (spidey) {
         spidey.classList.remove('aiming');
     }
     
-    if (webPath) {
-        webPath.style.transition = 'opacity 0.3s';
-        webPath.style.opacity = '0';
-    }
+    webPaths.forEach(webPath => {
+        if (webPath) {
+            webPath.style.transition = 'opacity 0.3s';
+            webPath.style.opacity = '0';
+        }
+    });
 }
 
 function createWebParticle(startX, startY, endX, endY, progress) {
